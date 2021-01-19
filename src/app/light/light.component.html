@@ -1,0 +1,22 @@
+<mat-card class="light-card" [style]="cardBackground">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image" [class.light-off]="!light?.state?.on"></div>
+    <mat-card-title>{{ light?.name }}</mat-card-title>
+    <mat-card-subtitle>{{ light?.type }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-slider (change)="onBrightnessChange($event)"
+                (input)="onInput()"
+                class="slider-bri"
+                min="0"
+                max="255"
+                step="1"
+                [disabled]="!light?.state?.on"
+                [value]="light?.state?.bri">
+    </mat-slider>
+  </mat-card-content>
+  <mat-card-actions>
+    <button (click)="onToggleLight()" mat-button>{{ toggleButtonText }}</button>
+    <button (click)="onRandom()" [disabled]="!this.light?.state?.on" mat-button>Aléatoire</button>
+  </mat-card-actions>
+</mat-card>

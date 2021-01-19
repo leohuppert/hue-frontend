@@ -1,0 +1,8 @@
+<div class="wrapper">
+  <app-light
+    *ngFor="let light of lights$ | async; let i = index;"
+    [light]="light"
+    [id]="i+1"
+    (inputActive)="onMakeRequestChange($event)">
+  </app-light>
+</div>
