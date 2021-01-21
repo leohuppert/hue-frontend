@@ -19,6 +19,8 @@ export class LightsComponent implements OnInit, OnDestroy {
   constructor(private hueService: HueService) {}
 
   ngOnInit(): void {
+    // TODO: Do interval in HueService and subscribe here ?
+
     this.hueService.getLights().toPromise().then(data => this.lights = data);
 
     this.lightsSubscription = interval(this.REQUEST_INTERVAL)
