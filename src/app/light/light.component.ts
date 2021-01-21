@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
 import {Light} from '../shared/model/light.model';
 import {HueService} from '../service/hue.service';
 import {Subject} from 'rxjs';
@@ -9,20 +9,15 @@ import {takeUntil} from 'rxjs/operators';
   templateUrl: './light.component.html',
   styleUrls: ['./light.component.scss']
 })
-export class LightComponent implements OnInit, OnDestroy {
+export class LightComponent implements OnDestroy {
 
   @Input() light: Light | undefined;
   @Input() id: number | undefined;
   @Output() inputActive: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   private readonly ngUnsubscribe = new Subject();
 
-  constructor(public hueService: HueService) {
-    console.log('construct light');
-  }
-
-  ngOnInit(): void {
-    console.log(this.light, this.id);
-  }
+  constructor(public hueService: HueService) {}
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.complete();
@@ -46,7 +41,6 @@ export class LightComponent implements OnInit, OnDestroy {
   }
 
   onToggleLight(): void {
-    console.log('toggle light', this.id, !this.light?.state.on);
     this.onInput();
     this.hueService.toggleLight(this.id, !this.light?.state.on)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -57,10 +51,6 @@ export class LightComponent implements OnInit, OnDestroy {
     this.hueService.changeBrightness(this.id, event.value)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(_ => this.refreshData());
-  }
-
-  onColorChoose(event: any): void {
-    console.log(event.target.value);
   }
 
   onRandom(): void {
@@ -86,7 +76,9 @@ export class LightComponent implements OnInit, OnDestroy {
   }
 
   get cardBackground(): string {
-    return this.light?.state?.on ? `background-image: linear-gradient(180deg, rgb(${this.r}, ${this.g}, ${this.b}), #00000059 100%)` : 'background-color: grey;';
+    return this.light?.state?.on
+      ? `background-image: linear-gradient(180deg, rgb(${this.r}, ${this.g}, ${this.b}), #00000059 100%)`
+      : 'background-color: grey;';
   }
 
   onInput(): void {

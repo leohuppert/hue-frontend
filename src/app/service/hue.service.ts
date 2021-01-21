@@ -7,13 +7,13 @@ import {Light} from '../shared/model/light.model';
   providedIn: 'root'
 })
 export class HueService {
+  private static MAX_HUE = 65535;
+  private readonly HUE_API = 'http://localhost:9000';
 
   constructor(private http: HttpClient) {}
 
-  private readonly HUE_API = 'http://localhost:9000';
-
   private static getRandomHue(): number {
-    return Math.floor(Math.random() * 65535) + 1;
+    return Math.floor(Math.random() * this.MAX_HUE) + 1;
   }
 
   getLights(): Observable<Light[]> {
@@ -36,6 +36,13 @@ export class HueService {
     return this.http.put<any>(`${this.HUE_API}/lights/${id}/hue`, { hue: HueService.getRandomHue() });
   }
 
+  /**
+   * Returns RGB Value of Hue XY array
+   *
+   * @param x x value
+   * @param y y value
+   * @param bri brightness
+   */
   xyBriToRgb(x: number, y: number, bri: number): any {
     const z = 1.0 - x - y;
     const Y = bri / 255.0; // Brightness of lamp

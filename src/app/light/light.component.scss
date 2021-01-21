@@ -7,7 +7,6 @@
 .example-header-image {
   position: relative;
   overflow: hidden;
-  //background-image: url('https://image.freepik.com/vecteurs-libre/ampoule-simple-lumiere-jaune-blanc_1308-40050.jpg');
   background-image: url('https://www.pngrepo.com/png/32387/512/light-bulb.png');
   background-size: cover;
 }
@@ -23,49 +22,3 @@
 .slider-bri {
   width: 100%;
 }
-
-.example-header-image:after {
-
-  animation: shine 20s ease-in-out  infinite;
-  animation-fill-mode: forwards;
-  content: "";
-  position: absolute;
-  top: -110%;
-  left: -210%;
-  width: 200%;
-  height: 200%;
-  opacity: 0;
-  transform: rotate(30deg);
-
-  background: rgba(255, 255, 255, 0.13);
-  background: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0.13) 0%,
-      rgba(255, 255, 255, 0.13) 77%,
-      rgba(255, 255, 255, 0.5) 92%,
-      rgba(255, 255, 255, 0.0) 100%
-  );
-}
-
-.example-header-image:active:after {
-  opacity: 0;
-}
-
-@keyframes shine{
-  10% {
-    opacity: 1;
-    top: -30%;
-    left: -30%;
-    transition-property: left, top, opacity;
-    transition-duration: 2s, 2s, 1s;
-    transition-timing-function: ease;
-  }
-  100% {
-    opacity: 0;
-    top: -30%;
-    left: -30%;
-    transition-property: left, top, opacity;
-  }
-}
-
-//background: linear-gradient(220deg,rgb(255, 188, 212), transparent 99%);

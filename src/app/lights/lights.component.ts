@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HueService} from '../service/hue.service';
 import {Light} from '../shared/model/light.model';
-import {BehaviorSubject, interval, NEVER} from 'rxjs';
+import {interval, NEVER, Subscription} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 
 @Component({
@@ -9,30 +9,32 @@ import {switchMap} from 'rxjs/operators';
   templateUrl: './lights.component.html',
   styleUrls: ['./lights.component.scss']
 })
-export class LightsComponent implements OnInit {
+export class LightsComponent implements OnInit, OnDestroy {
 
   lights: Light[] = [];
-  lights$: BehaviorSubject<Light[]> = new BehaviorSubject<Light[]>([]);
   makeRequest = true;
+  lightsSubscription: Subscription | undefined;
+  private readonly REQUEST_INTERVAL = 2000;
 
   constructor(private hueService: HueService) {}
 
   ngOnInit(): void {
-    interval(2000)
+    this.hueService.getLights().toPromise().then(data => this.lights = data);
+
+    this.lightsSubscription = interval(this.REQUEST_INTERVAL)
       .pipe(
         switchMap(() => this.makeRequest ? this.hueService.getLights() : NEVER)
       )
-      .subscribe(data => {
-        if (this.lights !== data) {
-          this.lights = data;
-        }
+      .subscribe(data => this.lights = data);
+  }
 
-        this.lights$.next(data);
-      });
+  ngOnDestroy(): void {
+    if (this.lightsSubscription) {
+      this.lightsSubscription.unsubscribe();
+    }
   }
 
   onMakeRequestChange(event: boolean): void {
-    console.log('make request change input = ', event);
     this.makeRequest = !event;
   }
 
