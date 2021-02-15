@@ -2,6 +2,7 @@ import {Light} from '../model/light.model';
 
 export const LIGHTS_MOCK: Light[] = [
   {
+    id: 1,
     name: 'Lampe 1',
     type: 'LED',
     state: {
@@ -13,6 +14,7 @@ export const LIGHTS_MOCK: Light[] = [
     }
   },
   {
+    id: 2,
     name: 'Lampe 3',
     type: 'LED',
     state: {
@@ -24,6 +26,7 @@ export const LIGHTS_MOCK: Light[] = [
     }
   },
   {
+    id: 3,
     name: 'Lampe 3',
     type: 'LED',
     state: {

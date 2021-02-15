@@ -8,4 +8,5 @@ export interface Light {
   };
   name: string;
   type: string;
+  id: number | undefined;
 }
